@@ -1,0 +1,67 @@
+import streamlit as st
+
+def generate_pitch(project_name, description, categories, benefits, target_audience, contributors, timeline, contact_info):
+    pitch = f"""
+    ### {project_name}
+
+    **Project Description:**  
+    {description}
+
+    **Categories:**  
+    {', '.join(categories)}
+
+    **Benefits:**  
+    {benefits}
+
+    **Target Audience:**  
+    {target_audience}
+
+    **Potential Contributors:**  
+    {contributors}
+
+    **Proposed Timeline:**  
+    {timeline}
+
+    **Contact Information:**  
+    {contact_info}
+    """
+    return pitch
+
+def main():
+    st.set_page_config(page_title="Payback Project Pitch", layout="wide")
+    st.title("Design Your Payback Project Pitch")
+
+    st.write("""
+    This app helps you create a pitch for a payback project at your company where employees can offer and receive free mentoring, 
+    skill-building, and services across various categories like technology, arts, music, sports, etc. 
+    Fill out the details below to generate your project pitch.
+    """)
+
+    # Form to collect pitch details
+    with st.form("pitch_form"):
+        project_name = st.text_input("Project Name", "")
+        description = st.text_area("Project Description", "")
+        categories = st.multiselect(
+            "Categories (Choose all that apply)",
+            ["Technology", "Arts", "Music", "Sports", "Health & Wellness", "Business", "Public Speaking", "Leadership", "Other"]
+        )
+        benefits = st.text_area("Benefits to Employees/Company", "")
+        target_audience = st.text_input("Target Audience", "")
+        contributors = st.text_input("Potential Contributors (Departments, Teams, Individuals)", "")
+        timeline = st.text_input("Proposed Timeline (e.g., 3 months, 6 months)", "")
+        contact_info = st.text_input("Contact Information (Email, Phone, etc.)", "")
+
+        # Submit button
+        submitted = st.form_submit_button("Generate Pitch")
+
+    # Display the pitch
+    if submitted:
+        if not project_name or not description or not categories or not benefits or not target_audience or not contributors or not timeline or not contact_info:
+            st.warning("Please fill out all the fields before generating the pitch.")
+        else:
+            pitch = generate_pitch(project_name, description, categories, benefits, target_audience, contributors, timeline, contact_info)
+            st.markdown(pitch)
+            st.success("Your pitch has been generated successfully!")
+
+if __name__ == "__main__":
+    main()
